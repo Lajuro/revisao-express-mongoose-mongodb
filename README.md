@@ -3,10 +3,11 @@ Vamos montar um projeto em Express, esse projeto terá conexão com um banco de 
 
 ### Requisitos:
 
-##### Estrutura de Arquivos:
+##### Estrutura Inicial:
 [ ] Criar uma pasta do projeto.
 [ ] Criar o arquivo index.js, que será o arquivo de entrada do projeto.
 [ ] Criar uma pasta src onde será armazenado esse arquivo.
+[ ] Rodar o comando npm init.
 [ ] Baixar os pacotes npm: express e mongoose (--save) e nodemon (--save-dev).
 
 ##### Configuração do src/index.js:
@@ -39,3 +40,5 @@ Vamos montar um projeto em Express, esse projeto terá conexão com um banco de 
 [ ] Importar o arquivo de routes.
 [ ] Usar na aplicação Express o routes.
 
+#### Finalizando o projeto
+[ ] Adicionar um .gitignore para ignorar o node_modules.
