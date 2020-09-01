@@ -8,10 +8,11 @@ Vamos montar um projeto em Express, esse projeto terá conexão com um banco de 
 - [ ] Criar o arquivo index.js, que será o arquivo de entrada do projeto.
 - [ ] Criar uma pasta src onde será armazenado esse arquivo.
 - [ ] Rodar o comando `npm init`.
-- [ ] Baixar os pacotes npm: express e mongoose `(--save)` e nodemon `(--save-dev)`.
+- [ ] **Baixar os pacotes npm:** Express e Mongoose `(--save)` e Nodemon `(--save-dev)`.
+- [ ] No arquivo `package.json`, fazer 2 scripts: `"start": "node src/index.js"` e `"dev": "nodemon src/index.js"`.
 
 ##### Configuração do src/index.js:
-- [ ] Fazer a importação do express.
+- [ ] Fazer a importação do Express.
 - [ ] Fazer a inicialização de um app Express.
 - [ ] Usar na aplicação Express `express.json()`.
 - [ ] Fazer uma rota principal. [GET]
