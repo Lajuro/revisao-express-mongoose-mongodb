@@ -44,4 +44,4 @@ Vamos montar um projeto em Express, esse projeto terá conexão com um banco de 
 - [x] Usar na aplicação Express o routes.
 
 #### Finalizando o projeto
-- [ ] Adicionar um `.gitignore` para ignorar o `node_modules`.
+- [x] Adicionar um `.gitignore` para ignorar o `node_modules`.
