@@ -75,6 +75,30 @@ const readUsers = async () => {
 
 }
 
+const readUsersAZ = async (params) => {
+    let database = await connectDatabase();
+
+    await createUserSchema(database);
+
+    const {User} = database.models;
+
+    if (params.letra) {
+        let letra = params.letra;
+        let regex = new RegExp(`^${letra.charAt(0)}`, 'i')
+        let response = await User.find({name: regex});
+
+        return {
+            "status": 200,
+            ...response
+        };
+    } else {
+        throw {
+            "status": 400,
+            "message": "É necessário passar uma letra como parâmetro!"
+        }
+    }
+}
+
 // Update
 const updateUser = async ({id}, {name, password, email}) => {
     let database = await connectDatabase();
@@ -100,6 +124,7 @@ const deleteUser = async ({id}) => {
 module.exports = {
     createUser,
     readUsers,
+    readUsersAZ,
     updateUser,
     deleteUser
 }

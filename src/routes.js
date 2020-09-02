@@ -16,6 +16,13 @@ routes.get('/usuarios', (req, res) => {
         .catch(err => console.error(err));
 });
 
+// Rota Read por Letra
+routes.get('/usuarios/AZ/:letra?', (req, res) => {
+    controller.readUsersAZ(req.params)
+        .then(result => res.json(result))
+        .catch(err => res.json(err));
+});
+
 // Rota do Update
 routes.put('/usuarios/update/:id', (req, res) => {
     // res.json({

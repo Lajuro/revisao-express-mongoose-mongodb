@@ -50,3 +50,44 @@ Vamos montar um projeto em Express, esse projeto terá conexão com um banco de 
 
 #### Finalizando o projeto
 - [x] Adicionar um `.gitignore` para ignorar o `node_modules`.
+
+## Bônus:
+> Aqui ficarão alguns desafios para serem feitos, podem ser adicionados novos no futuro.
+
+### Fazer uma rota que procure por pessoas de A até Z
+-> A ideia aqui é fazer uma rota onde seja possível pesquisar items de acordo com a letra inicial.
+
+#### routes.js
+- [x] Criar uma nova rota `GET` para pesquisa de A até Z.
+- [x] Essa rota, deve ter um parâmetro `:letra?` para que consiga pegar através do `req.params`. O interrogação no final é para dizer que esse parâmetro é opcional, se não for passado, caso fizer uma tratativa de erro no controller, ele poderá cair nesse erro e mostrar que não foi preenchido o parâmetro.
+- [x] Use, dentro da arrow function, o método que irá criar no `UsuariosController.js`, uma sugestão é um método com o nome readUserAZ, esse método deve receber como parâmetro o `req.params`.
+- [x] Retorne um resultado caso positivo e outro para caso de erro.
+
+#### UsuariosController.js
+- [x] Criar uma função (readUserAz) que possua como parâmetro algo como `params`.
+- [x] Como todos os outros métodos, verifique sobre a conexão com o banco, criação do Schema e faça o destructuring do Model `User` que está em `database.models`.
+- [x] (Opcional) Faça uma verificação se foi passado algum parâmetro.
+- [x] Crie uma variável para armazenar o `params.letra`:
+```javascript
+let letra = params.letra;
+```
+- [x] Crie uma variável para colocar o Regex que irá usar para a pesquisa.
+```javascript
+let regex = new RegExp(`^${}`, 'i');
+```
+- [x] Crie uma variável para armazenar a resposta da busca.
+```javascript
+let response = await User.find({name: regex});
+```
+- [x] Retorne então esse `response`.
+- [x] (Opcional) Caso tenha feito a verificação de parâmetro, no `else` jogue um erro `É necessário passar uma letra como parâmetro!`:
+```javascript
+throw 'É necessário passar uma letra como parâmetro!';
+```
+
+#### api.rest
+- [x] Crie mais uma rota `GET`.
+- [x] O caminho deverá ser a mesma rota que passou como rota no routes.js.
+- [x] No final, você pode colocar a letra que deseja buscar.
+- [x] Clique em `Send Request` e veja se tudo ocorreu como esperado.
+
