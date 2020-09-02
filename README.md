@@ -28,10 +28,15 @@ Vamos montar um projeto em Express, esse projeto terá conexão com um banco de 
 - [x] Importar o Mongoose.
 - [x] Criar a função que faz a conexão com o banco de dados do MongoDB.
 - [x] Criar a função que cria um Schema de usuários.
-- [x] Criar todas as funções CRUD.
+- [x] Criar todas as funções CRUD (createUser, readUser, updateUser, deleteUser).
+- [x] Exportar todas as funções para serem usadas nas rotas.
 
 #### De volta pro routes.js
 - [x] Importar o controller.
+- [x] Criar a rota `POST` para o método `createUser` do `controller`.
+- [x] Criar a rota `GET` para o método `readUser` do `controller`.
+- [x] Criar a rota `PUT` para o método `updateUser` do `controller`.
+- [x] Criar a rota `DELETE` para o método `deleteUser` do `controller`.
 
 ##### REST Client
 - [x] Fazer a requisição `POST` para o método `Create`.
