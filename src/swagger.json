@@ -83,10 +83,7 @@
                     "in": "path",
                     "name": "letra",
                     "required": true,
-                    "description": "Primeira letra do nome que deseja buscar.",
-                    "schema": {
-                        "$ref": "#/definitions/letra"
-                    }
+                    "description": "Primeira letra do nome que deseja buscar."
                 }],
                 "responses": {
                     "200": {
@@ -182,13 +179,6 @@
         }
     },
     "definitions": {
-        "letra": {
-            "properties": {
-                "letra": {
-                    "type": "string"
-                }
-            }
-        },
         "id": {
             "properties": {
                 "_id": {

@@ -203,6 +203,7 @@ app.use(...swaggerConfig);
 }
 ```
 > Observe que esse código está dentro de `paths`, ou seja, não é para inserir esse `paths` dentro do já existente `paths`, nesse caso copie apenas o caminho `/usuarios/create` para baixo, até antes do fechamento de `paths`.
+
 - [x] Veja que dentro de `$ref`, é passado um `definition`, que no caso é `User`, ou seja, você precisará criar esse definition em `definitions`, como abaixo:
 ```json
 "definitions": {
@@ -223,3 +224,299 @@ app.use(...swaggerConfig);
 }
 ```
 > Observe que esse código está dentro de `definitions`, ou seja, não é para inserir esse `definitions` dentro do já existente `definitions`, nesse caso copie apenas a definição `User` para baixo, até antes do fechamento de `definitions`.
+
+##### READ
+- [x] Para o caminho do `read` é praticamente igual, primeiro crie o que definiu em `routes.js`, no caso aqui é `/usuarios`.
+- [x] A estrutura para esse método é a seguinte:
+```json
+"/usuarios": {
+    "get": {
+        "tags": [
+            "Usuários"
+        ],
+        "summary": "Retorna todos os usuários do banco de dados",
+        "responses": {
+            "200": {
+                "description": "Listagem de usuários",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                }
+            },
+            "5XX": {
+                "description": "Erro inesperado."
+            }
+        }
+    }
+}
+```
+- [x] Veja que dentro de `$ref`, é passado um `definition`, que no caso é `Users`, ou seja, você precisará criar esse definition em `definitions`, como abaixo:
+```json
+"Users": {
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "_id": {
+                "type": "string"
+            },
+            "name": {
+                "type": "string"
+            },
+            "password": {
+                "type": "string"
+            },
+            "email": {
+                "type": "string"
+            },
+            "createdAt": {
+                "type": "string"
+            },
+            "updatedAt": {
+                "type": "string"
+            },
+            "_v": {
+                "type": "number"
+            }
+        }
+    }
+}
+```
+
+##### READ - Porém dessa vez a rota de A até Z
+- [x] Para esse caminho que também é `read` é um pouco diferente, se assemelha mais ao `delete` e o `update`, primeiro crie o que definiu em `routes.js`, no caso aqui é `/usuarios`.
+- [x] A estrutura para esse método é a seguinte:
+```json
+"/usuarios/AZ/{letra}": {
+    "get": {
+        "tags": [
+            "Usuários"
+        ],
+        "summary": "Retorna todos os usuários do banco de dados de acordo com a letra buscada",
+        "parameters": [{
+            "in": "path",
+            "name": "letra",
+            "required": true,
+            "description": "Primeira letra do nome que deseja buscar.",
+        }],
+        "responses": {
+            "200": {
+                "description": "Listagem de usuários de acordo com a letra passada como parâmetro.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                }
+            },
+            "5XX": {
+                "description": "Erro inesperado."
+            }
+        }
+    }
+},
+```
+> Veja que existe essa propriedade nova `parameters`, aqui você define o parâmetro que substituirá o que está no path `/usuarios/AZ/{letra}` que está entre chaves.
+> Dentro de `parameters`, a propriedade `name` é para referenciar o que tem no `path` que está entre parênteses. Ou seja, se tivesse outro parâmetro, já que esse `parameters` é uma array, você teria que passar todo esse bloco, como abaixo, de novo.
+```json
+"parameters": [
+    {
+        "in": "path",
+        "name": "letra",
+        "required": true,
+        "description": "Primeira letra do nome que deseja buscar.",
+        "schema": {
+            "$ref": "#/definitions/letra"
+        }
+    },
+    {
+        "in": "path",
+        "name": "OUTRO PARÂMETRO",
+        "required": true,
+        "description": "DESCRIÇÃO DESSE OUTRO PARÂMETRO",
+    }
+]
+```
+
+##### UPDATE
+- [x] Para o caminho do `update` é praticamente igual ao `read` que seleciona de A até Z, primeiro crie o que definiu em `routes.js`, no caso aqui é `/usuarios/update/{id}`.
+- [x] A estrutura para esse método é a seguinte:
+```json
+"/usuarios/update/{id}": {
+    "put": {
+        "summary": "Atualiza o usuário correspondente ao ID",
+        "tags": [
+            "Usuários"
+        ],
+        "requestBody": {
+            "description": "Propriedades do usuário",
+            "required": true,
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "#/definitions/User"
+                    }
+                }
+            }
+        },
+        "parameters": [{
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID do usuário que iremos atualizar",
+            "schema": {
+                "$ref": "#/definitions/id"
+            }
+        }],
+        "responses": {
+            "200": {
+                "description": "Ok",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/definitions/UpdateResponse"
+                        }
+                    }
+                }
+            },
+            "5XX": {
+                "description": "Erro inesperado."
+            }
+        }
+    }
+}
+```
+> Observe que dentro de `parameters` tem uma propriedade chamada `schema` que tem uma referência ao `definitions`, no caso o nome dessa `definition` é `id`, ou seja, teremos que criar ela.
+> Além disso, tem uma nova response que a gente quer quando da tudo certo no Update, no caso o nome da referência em `definitions` é `UpdateResponse`.
+
+ - [x] Para criar o `definition` de `id` em `definitions`, faça como abaixo:
+ ```json
+ "id": {
+    "properties": {
+        "_id": {
+            "type": "string"
+        }
+    }
+}
+```
+ - [x] Para criar o `definition` de `UpdateResponse` em `definitions`, faça como abaixo:
+ ```json
+ "UpdateResponse": {
+    "type": "object",
+    "properties": {
+        "n": {
+            "type": "number"
+        },
+        "nModified": {
+            "type": "number"
+        },
+        "opTime": {
+            "type": "object",
+            "properties": {
+                "ts": {
+                    "type": "string"
+                },
+                "t": {
+                    "type": "number"
+                }
+            }
+        },
+        "electionId": {
+            "type": "string"
+        },
+        "ok": {
+            "type": "number"
+        },
+        "operationTime": {
+            "type": "string"
+        }
+    }
+}
+```
+
+##### DELETE
+- [x] Para o caminho do `delete` é praticamente igual ao `update`, primeiro crie o que definiu em `routes.js`, no caso aqui é `/usuarios/delete/{id}`.
+- [x] A estrutura para esse método é a seguinte:
+```json
+"/usuarios/delete/{id}": {
+    "delete": {
+        "summary": "Deleta o usuário correspondente ao ID",
+        "tags": [
+            "Usuários"
+        ],
+        "parameters": [{
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID do usuário que iremos apagar",
+            "schema": {
+                "$ref": "#/definitions/id"
+            }
+        }],
+        "responses": {
+            "200": {
+                "description": "Ok",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/definitions/DeleteResponse"
+                        }
+                    }
+                }
+            },
+            "5XX": {
+                "description": "Erro inesperado."
+            }
+        }
+    }
+}
+```
+> Observe que o `definition` de quando a requisição `delete` da certo, se chama `DeleteResponse` nesse exemplo, então precisamos criar.
+
+ - [x] Para criar o `definition` de `DeleteResponse` em `definitions`, faça como abaixo:
+ ```json
+ "DeleteResponse": {
+    "type": "object",
+    "properties": {
+        "n": {
+            "type": "number"
+        },
+        "nModified": {
+            "type": "number"
+        },
+        "opTime": {
+            "type": "object",
+            "properties": {
+                "ts": {
+                    "type": "string"
+                },
+                "t": {
+                    "type": "number"
+                }
+            }
+        },
+        "electionId": {
+            "type": "string"
+        },
+        "ok": {
+            "type": "number"
+        },
+        "operationTime": {
+            "type": "string"
+        },
+        "deletedCount": {
+            "type": "number"
+        }
+    }
+}
+```
+
+### Conclusão
+- [x] Agora podemos testar se tudo está funcionando, então no terminal rode o comando ```npm run dev```.
+- [x] Acesse o link local: http://localhost:3000.
+- [x] Você deverá ver 5 métodos dentro da tag "Usuários", que são um `POST`, dois `GET`, um `PUT` e um `DELETE`.
+- [x] Faça os testes em cada uma dessas requisições, verifique se todas funcionam.
