@@ -1,0 +1,308 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Node.js com Swagger",
+        "description": "Documentação viva de uma API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "tags": [{
+        "name": "Usuários",
+        "description": "Endpoints referentes ao domínio de usuários"
+    }],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/usuarios/create": {
+            "post": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Insere um novo usuário no banco de dados",
+                "requestBody": {
+                    "description": "Propriedades do usuário",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "#ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    },
+                    "5XX": {
+                        "description": "Erro inesperado."
+                    }
+                }
+            }
+        },
+        "/usuarios": {
+            "get": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Retorna todos os usuários do banco de dados",
+                "responses": {
+                    "200": {
+                        "description": "Listagem de usuários",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Users"
+                                }
+                            }
+                        }
+                    },
+                    "5XX": {
+                        "description": "Erro inesperado."
+                    }
+                }
+            }
+        },
+        "/usuarios/AZ/{letra}": {
+            "get": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Retorna todos os usuários do banco de dados de acordo com a letra buscada",
+                "parameters": [{
+                    "in": "path",
+                    "name": "letra",
+                    "required": true,
+                    "description": "Primeira letra do nome que deseja buscar.",
+                    "schema": {
+                        "$ref": "#/definitions/letra"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Listagem de usuários de acordo com a letra passada como parâmetro.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Users"
+                                }
+                            }
+                        }
+                    },
+                    "5XX": {
+                        "description": "Erro inesperado."
+                    }
+                }
+            }
+        },
+        "/usuarios/update/{id}": {
+            "put": {
+                "summary": "Atualiza o usuário correspondente ao ID",
+                "tags": [
+                    "Usuários"
+                ],
+                "requestBody": {
+                    "description": "Propriedades do usuário",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "parameters": [{
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "description": "ID do usuário que iremos atualizar",
+                    "schema": {
+                        "$ref": "#/definitions/id"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/UpdateResponse"
+                                }
+                            }
+                        }
+                    },
+                    "5XX": {
+                        "description": "Erro inesperado."
+                    }
+                }
+            }
+        },
+        "/usuarios/delete/{id}": {
+            "delete": {
+                "summary": "Deleta o usuário correspondente ao ID",
+                "tags": [
+                    "Usuários"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "description": "ID do usuário que iremos apagar",
+                    "schema": {
+                        "$ref": "#/definitions/id"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/DeleteResponse"
+                                }
+                            }
+                        }
+                    },
+                    "5XX": {
+                        "description": "Erro inesperado."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "letra": {
+            "properties": {
+                "letra": {
+                    "type": "string"
+                }
+            }
+        },
+        "id": {
+            "properties": {
+                "_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "UpdateResponse": {
+            "type": "object",
+            "properties": {
+                "n": {
+                    "type": "number"
+                },
+                "nModified": {
+                    "type": "number"
+                },
+                "opTime": {
+                    "type": "object",
+                    "properties": {
+                        "ts": {
+                            "type": "string"
+                        },
+                        "t": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "electionId": {
+                    "type": "string"
+                },
+                "ok": {
+                    "type": "number"
+                },
+                "operationTime": {
+                    "type": "string"
+                }
+            }
+        },
+        "DeleteResponse": {
+            "type": "object",
+            "properties": {
+                "n": {
+                    "type": "number"
+                },
+                "nModified": {
+                    "type": "number"
+                },
+                "opTime": {
+                    "type": "object",
+                    "properties": {
+                        "ts": {
+                            "type": "string"
+                        },
+                        "t": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "electionId": {
+                    "type": "string"
+                },
+                "ok": {
+                    "type": "number"
+                },
+                "operationTime": {
+                    "type": "string"
+                },
+                "deletedCount": {
+                    "type": "number"
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "Users": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    },
+                    "_v": {
+                        "type": "number"
+                    }
+                }
+            }
+        }
+    }
+}
