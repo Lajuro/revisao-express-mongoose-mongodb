@@ -91,3 +91,135 @@ throw 'É necessário passar uma letra como parâmetro!';
 - [x] No final, você pode colocar a letra que deseja buscar.
 - [x] Clique em `Send Request` e veja se tudo ocorreu como esperado.
 
+## Adicionando Swagger no projeto:
+> Após concluir todas as etapas anteriores, para incluir uma documentação da sua API através do Swagger, siga as próximas etapas.
+
+#### Etapa inicial:
+- [x] No terminal, certifique-se que está no caminho onde seu projeto está hospedado e instale o `swagger` e o `swagger-ui-express`.
+- [x] Para instalar o `swagger`, que no caso será globalmente, rode o seguinte comando:
+```
+npm install -g swaggger
+```
+- [x] Para instalar o `swagger-ui-express`, que no caso será nas dependências padrões, rode o seguinte comando:
+```
+npm install swaggger-ui-express --save
+```
+- [x] Crie uma pasta `middlewares` dentro da pasta `src`.
+- [x] Dentro da pasta `middlewares`, crie um arquivo chamado `swagger.js`.
+- [x] Dentro da pasta `src`, crie um arquivo chamado `swagger.json`.
+
+#### Arquivo middlewares/swagger.js:
+- [x] Faça a estrutura padrão de importação do Swagger:
+```javascript
+const swaggerUi = require('swagger-ui-express');
+const swaggerDoc = require('../swagger.json');
+const path = '/swagger';
+
+const swaggerConfig = [
+    path,
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDoc)
+];
+
+module.exports = {
+    swaggerConfig
+}
+```
+> É importante que seja feito a exportação da variável `swaggerConfig` para ser usado na próxima etapa.
+
+#### Arquivo index.js:
+- [x] No topo do arquivo, importe o middleware que acaba de criar.
+```javascript
+const {swaggerConfig} = require('./middlewares/swagger');
+```
+- [x] É necessário também que peça para o express use essas configurações do Swagger.
+```javascript
+app.use(...swaggerConfig);
+```
+
+#### Arquivo swagger.json:
+- [x] Crie a estrutura inicial do Swagger, que é a seguinte:
+```json
+    {
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "[Título da sua API]",
+        "description": "[Uma breve descrição da sua API]",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "tags": [{
+        "name": "[Nome do endpoint que vai documentar, como por exemplo: Usuários]",
+        "description": "[Uma descrição do que tem nesse endpoint.]"
+    }],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {},
+    "definitions": {}
+}
+```
+##### CREATE
+- [x] Faça o caminho do `create` que definiu em `routes.js`, no caso aqui é `/usuarios/create`.
+- [x] A estrutura para esse método é a seguinte:
+```json
+"paths": {
+    "/usuarios/create": {
+        "post": {
+            "tags": [
+                "Usuários"
+            ],
+            "summary": "Insere um novo usuário no banco de dados",
+            "requestBody": {
+                "description": "Propriedades do usuário",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "#ref": "#/definitions/User"
+                        }
+                    }
+                }
+            },
+            "produces": [
+                "application/json"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Ok"
+                },
+                "5XX": {
+                    "description": "Erro inesperado."
+                }
+            }
+        }
+    }
+}
+```
+> Observe que esse código está dentro de `paths`, ou seja, não é para inserir esse `paths` dentro do já existente `paths`, nesse caso copie apenas o caminho `/usuarios/create` para baixo, até antes do fechamento de `paths`.
+- [x] Veja que dentro de `$ref`, é passado um `definition`, que no caso é `User`, ou seja, você precisará criar esse definition em `definitions`, como abaixo:
+```json
+"definitions": {
+    "User": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "string"
+            },
+            "password": {
+                "type": "string"
+            },
+            "email": {
+                "type": "string"
+            }
+        }
+    }
+}
+```
+> Observe que esse código está dentro de `definitions`, ou seja, não é para inserir esse `definitions` dentro do já existente `definitions`, nesse caso copie apenas a definição `User` para baixo, até antes do fechamento de `definitions`.
